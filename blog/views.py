@@ -39,3 +39,24 @@ def post_edit(request, pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
+
+
+def index(request):
+    # Check user's theme preference
+    if 'dark_mode' in request.session:
+        dark_mode = request.session['dark_mode']
+    else:
+        # Default to light mode
+        dark_mode = False
+
+    return render(request, 'index.html', {'dark_mode': dark_mode})
+
+def toggle_theme(request):
+    # Toggle theme preference
+    if 'dark_mode' in request.session:
+        request.session['dark_mode'] = not request.session['dark_mode']
+    else:
+        # Default to dark mode
+        request.session['dark_mode'] = True
+
+    return redirect('index')
